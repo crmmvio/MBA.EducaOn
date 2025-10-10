@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MBA.EducaOn.Cadastro.Data\MBA.EducaOn.GestaoConteudo.Data.csproj" />
+    <ProjectReference Include="..\MBA.EducaOn.Cadastro.Domain\MBA.EducaOn.GestaoConteudo.Domain.csproj" />
+    <ProjectReference Include="..\MBA.EducaOn.Domain\MBA.EducaOn.Core.csproj" />
+    <ProjectReference Include="..\MBA.EducaOn.GestaoAlunos.Data\MBA.EducaOn.GestaoAlunos.Data.csproj" />
+    <ProjectReference Include="..\MBA.EducaOn.GestaoAlunos.Domain\MBA.EducaOn.GestaoAlunos.Domain.csproj" />
+    <ProjectReference Include="..\MBA.EducaOn.Security\MBA.EducaOn.Security.csproj" />
+  </ItemGroup>
+
+</Project>

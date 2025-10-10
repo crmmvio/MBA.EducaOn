@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MBA.EducaOn.GestaoConteudo.Data;
 
-public class CadastroContext : DbContext, IUnitOfWork
+public class ConteudoContext : DbContext, IUnitOfWork
 {
-    public CadastroContext(DbContextOptions<CadastroContext> options)
+    public ConteudoContext(DbContextOptions<ConteudoContext> options)
         : base(options) { }
 
     public DbSet<Curso> Cursos { get; set; }
@@ -15,13 +15,12 @@ public class CadastroContext : DbContext, IUnitOfWork
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
-            e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
-            property.SetColumnType("varchar(100)");
+        //foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
+        //    property.SetColumnType("varchar(100)");
 
         modelBuilder.Ignore<Event>();
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(CadastroContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ConteudoContext).Assembly);
     }
 
     public async Task<bool> Commit()

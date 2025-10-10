@@ -4,7 +4,7 @@ namespace MBA.EducaOn.Core.DomainObjects;
 
 public abstract class Entity
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; protected set; }
 
     private List<Event> _notificacoes = new();
     public IReadOnlyCollection<Event>? Notificacoes => _notificacoes?.AsReadOnly();

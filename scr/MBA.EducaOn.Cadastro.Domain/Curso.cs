@@ -3,20 +3,10 @@
 namespace MBA.EducaOn.GestaoConteudo.Domain;
 
 public class Curso : Entity, IAggregateRoot
-{
-    public string Nome { get; private set; }
-    public string Descricao { get; private set; }
-    public decimal Valor { get; private set; }
-    public int CargaHoraria { get; private set; }
-    public string PublicoAlvo { get; private set; }
-    public string Objetivo { get; private set; }
-    public string Requisitos { get; private set; }
-    public Guid CategoriaId { get; private set; }
-
-    public ICollection<ConteudoProgramatico> ConteudosProgramaticos { get; private set; }
-    // EF Core
+{    
     protected Curso() { }
-    public Curso(string nome, string descricao, decimal valor, int cargaHoraria, string publicoAlvo, string objetivo, string requisitos, Guid categoriaId)
+
+    public Curso(string nome, string descricao, decimal valor, int cargaHoraria, string publicoAlvo, string objetivo, string requisitos, ConteudoProgramatico conteudoProgramatico)
     {
         Nome = nome;
         Descricao = descricao;
@@ -25,15 +15,45 @@ public class Curso : Entity, IAggregateRoot
         PublicoAlvo = publicoAlvo;
         Objetivo = objetivo;
         Requisitos = requisitos;
-        CategoriaId = categoriaId;
-        ConteudosProgramaticos = new List<ConteudoProgramatico>();
+        ConteudoProgramatico = conteudoProgramatico;
+        Ativo = true;
+        Aulas = new List<Aula>();
     }
-    public void AdicionarConteudoProgramatico(ConteudoProgramatico conteudo)
+
+    public string Nome { get; private set; }
+    public string Descricao { get; private set; }
+    public decimal Valor { get; private set; }
+    public int CargaHoraria { get; private set; }
+    public string PublicoAlvo { get; private set; }
+    public string Objetivo { get; private set; }
+    public string Requisitos { get; private set; }
+    public DateTime DataCadastro { get; private set; }
+    public ConteudoProgramatico ConteudoProgramatico { get; private set; }
+    public bool Ativo { get; private set; }
+
+    public ICollection<Aula> Aulas { get; private set; }
+
+    public void AlteraStado(bool ativo) => Ativo = ativo;
+
+    public void AlterarConteudoProgramatico(ConteudoProgramatico conteudoProgramatico)
     {
-        ConteudosProgramaticos.Add(conteudo);
+        ConteudoProgramatico = conteudoProgramatico;
     }
-    public void RemoverConteudoProgramatico(ConteudoProgramatico conteudo)
+
+    public void AdicionarAula(Aula aulta)
     {
-        ConteudosProgramaticos.Remove(conteudo);
+        Aulas.Add(aulta);
     }
+    public void RemoverAula(Aula aula)
+    {
+        Aulas.Remove(aula);
+    }
+
+    #region Constants
+    public const int NomeMaxLength = 200;
+    public const int DescricaoMaxLength = 1000;
+    public const int PublicoAlvoMaxLength = 300;
+    public const int ObjetivoMaxLength = 500;
+    public const int RequisitosMaxLength = 500;
+    #endregion
 }
