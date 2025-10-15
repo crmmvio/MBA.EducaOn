@@ -1,5 +1,7 @@
 ﻿using MBA.EducaOn.GestaoAlunos.Data;
+using MBA.EducaOn.GestaoAlunos.Domain;
 using MBA.EducaOn.GestaoConteudo.Data;
+using MBA.EducaOn.GestaoConteudo.Domain;
 using MBA.EducaOn.Security.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -61,36 +63,51 @@ public static class DbMigrationHelpers
             await contextConteudo.Database.MigrateAsync();
             await contextAluno.Database.MigrateAsync();
 
-            await EnsureSeedSecurity(context, contextAluno);
-            await EnsureSeedConteudo(contextConteudo);
+            await EnsureSeedSecurity(context, contextConteudo, contextAluno);
         }
     }
 
-    private static async Task EnsureSeedSecurity(SecurityDbContext context, AlunoContext contextAluno)
+    private static async Task EnsureSeedSecurity(SecurityDbContext context, ConteudoContext contextConteudo, AlunoContext contextAluno)
     {
-        var userId = Guid.NewGuid().ToString();
 
-        await context.Users.AddAsync(new IdentityUser
+        if (!await contextConteudo.Cursos.AnyAsync())
         {
-            Id = userId,
-            UserName = "teste@crm.com",
-            NormalizedUserName = "TESTE@CRM.COM",
-            Email = "teste@crm.com",
-            NormalizedEmail = "TESTE@CRM.COM",
-            EmailConfirmed = true,
-            PasswordHash = "AQAAAAIAAYagAAAAEI8VDADrqtpXkqh0aUjERlWI1OPHO77GbMmNYMheOGW4PpoSB3HdROpkrVTk9wyefw==",
-            SecurityStamp = Guid.NewGuid().ToString(),
-            ConcurrencyStamp = Guid.NewGuid().ToString(),
-            PhoneNumberConfirmed = false,
-            TwoFactorEnabled = false,
-            LockoutEnabled = true,
-            AccessFailedCount = 0
-        });
+            var userId = Guid.NewGuid();
+            var userEmail = "teste@crm.com";
+            var conteudoProgramatico = new ConteudoProgramatico("Conteudo Programatico Teste", 1, DateTime.Now);
+            var curso = new Curso("Curso Teste", "Curso Teste Descricao", 100, 10, "Iniciante", "Teste", "Nenhum", conteudoProgramatico);
 
-        await context.SaveChangesAsync();
-    }
+            await contextConteudo.Cursos.AddAsync(curso);
 
-    private static async Task EnsureSeedConteudo(ConteudoContext context)
-    { 
+            await context.Users.AddAsync(new IdentityUser
+            {
+                Id = userId.ToString(),
+                UserName = "AlunoTeste",
+                NormalizedUserName = "ALUNOTESTE",
+                Email = userEmail,
+                NormalizedEmail = "TESTE@CRM.COM",
+                EmailConfirmed = true,
+                PasswordHash = "AQAAAAIAAYagAAAAEI8VDADrqtpXkqh0aUjERlWI1OPHO77GbMmNYMheOGW4PpoSB3HdROpkrVTk9wyefw==",
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = true,
+                AccessFailedCount = 0
+            });
+
+            var aluno = new Aluno(userId, "Aluno Teste", userEmail);
+            aluno.AtualizarHistorico(new HistoricoAprendizado(aluno.Id, curso.Id, DateTime.Now));
+
+            aluno.AdicionarMatricula(curso.Id);
+
+            await contextAluno.Alunos.AddAsync(aluno);
+            //await contextAluno.Matriculas.AddAsync(matricula);
+
+
+            await contextConteudo.Commit();
+            await contextAluno.Commit();
+            await context.SaveChangesAsync();
+        }
     }
 }

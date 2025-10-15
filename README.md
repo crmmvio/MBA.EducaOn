@@ -67,22 +67,17 @@ A estrutura do projeto é organizada da seguinte forma:
 ### **Passos para Execução**
 
 1. **Clone o Repositório:**
-   - `git clone https://github.com/seu-usuario/nome-do-repositorio.git`
-   - `cd nome-do-repositorio`
+   - `git clone https://github.com/crmmvio/MBA.EducaOn.git`
+   - `cd MBA.EducaOn`
 
 2. **Configuração do Banco de Dados:**
    - No arquivo `appsettings.json`, configure a string de conexão do SQL Server.
    - Rode o projeto para que a configuração do Seed crie o banco e popule com os dados básicos
 
-3. **Executar a Aplicação MVC:**
-   - `cd src/Blog.Mvc/`
+3. **Executar a API:**
+   - `cd src/MBA.EducaOn.Api/`
    - `dotnet run`
-   - Acesse a aplicação em: http://localhost:5000
-
-4. **Executar a API:**
-   - `cd src/Blog.Api/`
-   - `dotnet run`
-   - Acesse a documentação da API em: http://localhost:5001/swagger
+   - Acesse a documentação da API em: https://localhost:5000/swagger/index.html
 
 ## **7. Instruções de Configuração**
 
@@ -93,7 +88,7 @@ A estrutura do projeto é organizada da seguinte forma:
 
 A documentação da API está disponível através do Swagger. Após iniciar a API, acesse a documentação em:
 
-http://localhost:5001/swagger
+https://localhost:5000/swagger/index.html
 
 ## **9. Avaliação**
 

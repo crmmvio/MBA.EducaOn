@@ -32,8 +32,4 @@
     <ProjectReference Include="..\MBA.EducaOn.Ioc\MBA.EducaOn.Ioc.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Datafile\" />
-  </ItemGroup>
-
 </Project>

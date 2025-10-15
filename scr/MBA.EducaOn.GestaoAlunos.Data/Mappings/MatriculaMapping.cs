@@ -11,6 +11,10 @@ public class MatriculaMapping : IEntityTypeConfiguration<Matricula>
         builder.ToTable("Matriculas");
         builder.HasKey(a => a.Id);
 
+        builder.Property(a => a.CursoId)
+               .HasColumnName("CursoId")
+               .IsRequired();
+
         builder.Property(a => a.DataMatricula)
                .IsRequired();
 
