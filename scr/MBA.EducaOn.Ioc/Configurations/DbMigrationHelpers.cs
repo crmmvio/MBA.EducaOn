@@ -100,10 +100,7 @@ public static class DbMigrationHelpers
             aluno.AtualizarHistorico(new HistoricoAprendizado(aluno.Id, curso.Id, DateTime.Now));
 
             aluno.AdicionarMatricula(curso.Id);
-
             await contextAluno.Alunos.AddAsync(aluno);
-            //await contextAluno.Matriculas.AddAsync(matricula);
-
 
             await contextConteudo.Commit();
             await contextAluno.Commit();
