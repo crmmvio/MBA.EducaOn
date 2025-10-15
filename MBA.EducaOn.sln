@@ -51,6 +51,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0-Solution Items", "0-Solut
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		FEEDBACK.md = FEEDBACK.md
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 	EndProjectSection

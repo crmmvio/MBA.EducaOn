@@ -1,4 +1,5 @@
-﻿using MBA.EducaOn.GestaoAlunos.Data;
+﻿using MBA.EducaOn.Core.Data;
+using MBA.EducaOn.GestaoAlunos.Data;
 using MBA.EducaOn.GestaoConteudo.Data;
 using MBA.EducaOn.Security.Data;
 using Microsoft.AspNetCore.Builder;
@@ -80,5 +81,6 @@ public static class DataContextConfig
         builder.Services.AddScoped<AlunoContext>();
         builder.Services.AddScoped<ConteudoContext>();
         builder.Services.AddScoped<SecurityDbContext>();
+        //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();>
     }
 }

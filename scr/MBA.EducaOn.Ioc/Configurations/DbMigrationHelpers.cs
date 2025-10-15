@@ -1,8 +1,14 @@
-﻿using MBA.EducaOn.Security.Data;
+﻿using MBA.EducaOn.GestaoAlunos.Data;
+using MBA.EducaOn.GestaoConteudo.Data;
+using MBA.EducaOn.Security.Data;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace MBA.EducaOn.Api.Configurations;
+namespace MBA.EducaOn.Ioc.Configurations;
 
 /// <summary>
 /// Métodos de extensão para aplicar helpers de migração de banco de dados em um <see cref="WebApplication"/>.
@@ -46,22 +52,27 @@ public static class DbMigrationHelpers
         var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
 
         var context = scope.ServiceProvider.GetRequiredService<SecurityDbContext>();
+        var contextConteudo = scope.ServiceProvider.GetRequiredService<ConteudoContext>();
+        var contextAluno = scope.ServiceProvider.GetRequiredService<AlunoContext>();
 
         if (env.IsDevelopment() || env.IsEnvironment("Docker") || env.IsStaging())
         {
             await context.Database.MigrateAsync();
+            await contextConteudo.Database.MigrateAsync();
+            await contextAluno.Database.MigrateAsync();
 
-            await EnsureSeedProducts(context);
+            await EnsureSeedSecurity(context, contextAluno);
+            await EnsureSeedConteudo(contextConteudo);
         }
     }
 
-    private static async Task EnsureSeedProducts(SecurityDbContext context)
+    private static async Task EnsureSeedSecurity(SecurityDbContext context, AlunoContext contextAluno)
     {
-        var alunoId = Guid.NewGuid().ToString();
+        var userId = Guid.NewGuid().ToString();
 
         await context.Users.AddAsync(new IdentityUser
         {
-            Id = alunoId,
+            Id = userId,
             UserName = "teste@crm.com",
             NormalizedUserName = "TESTE@CRM.COM",
             Email = "teste@crm.com",
@@ -77,5 +88,9 @@ public static class DbMigrationHelpers
         });
 
         await context.SaveChangesAsync();
+    }
+
+    private static async Task EnsureSeedConteudo(ConteudoContext context)
+    { 
     }
 }
