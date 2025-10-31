@@ -21,6 +21,15 @@ public class Certificado : Entity
 
     public Aluno Aluno { get; set; }
 
+    public void Validar()
+    {
+        Validacoes.ValidarSeVazio(Codigo, "O código do certificado é obrigatório.");
+        Validacoes.ValidarTamanho(Codigo, CodigoMaxLength, $"O código do certificado não pode exceder {CodigoMaxLength} caracteres.");
+        Validacoes.ValidarSeNulo(AlunoId, "O ID do aluno é obrigatório.");
+        Validacoes.ValidarSeNulo(CursoId, "O ID do curso é obrigatório");
+        Validacoes.ValidarDataSeNula(DataEmissao, "A data de emissão do certificado é obrigatória.");
+    }
+
     #region Constants
     public const int CodigoMaxLength = 20;
     #endregion

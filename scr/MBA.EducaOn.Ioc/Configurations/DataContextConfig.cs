@@ -26,7 +26,7 @@ public static class DataContextConfig
             var cnnLite = builder.Configuration.GetConnectionString("DefaultConnectionLite");
 
             //Bounded Context - Alunos
-            builder.Services.AddDbContextPool<AlunoContext>(options =>
+            builder.Services.AddDbContextPool<AlunoDbContext>(options =>
             {
                 options.UseSqlite(cnnLite)
                        .EnableDetailedErrors()
@@ -34,7 +34,7 @@ public static class DataContextConfig
             });
 
             //Bounded Context - Conteudo
-            builder.Services.AddDbContextPool<ConteudoContext>(options =>
+            builder.Services.AddDbContextPool<ConteudoDbContext>(options =>
             {
                 options.UseSqlite(cnnLite)
                        .EnableDetailedErrors()
@@ -54,7 +54,7 @@ public static class DataContextConfig
             var cnn = builder.Configuration.GetConnectionString("DefaultConnection");
 
             //Bounded Context - Alunos
-            builder.Services.AddDbContextPool<AlunoContext>(options =>
+            builder.Services.AddDbContextPool<AlunoDbContext>(options =>
             {
                 options.UseSqlServer(cnn)
                        .EnableDetailedErrors()
@@ -62,7 +62,7 @@ public static class DataContextConfig
             });
 
             //Bounded Context - Conteudo
-            builder.Services.AddDbContextPool<ConteudoContext>(options =>
+            builder.Services.AddDbContextPool<ConteudoDbContext>(options =>
             {
                 options.UseSqlServer(cnn)
                        .EnableDetailedErrors()
@@ -78,8 +78,8 @@ public static class DataContextConfig
             });
         }
 
-        builder.Services.AddScoped<AlunoContext>();
-        builder.Services.AddScoped<ConteudoContext>();
+        builder.Services.AddScoped<AlunoDbContext>();
+        builder.Services.AddScoped<ConteudoDbContext>();
         builder.Services.AddScoped<SecurityDbContext>();
         //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();>
     }

@@ -10,4 +10,8 @@
     <ProjectReference Include="..\MBA.EducaOn.Domain\MBA.EducaOn.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Events\" />
+  </ItemGroup>
+
 </Project>

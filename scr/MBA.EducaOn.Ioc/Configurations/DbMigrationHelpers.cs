@@ -1,4 +1,6 @@
-﻿using MBA.EducaOn.GestaoAlunos.Data;
+﻿using MBA.EducaOn.Core.Enumerators;
+using MBA.EducaOn.Core.Extensions;
+using MBA.EducaOn.GestaoAlunos.Data;
 using MBA.EducaOn.GestaoAlunos.Domain;
 using MBA.EducaOn.GestaoConteudo.Data;
 using MBA.EducaOn.GestaoConteudo.Domain;
@@ -53,58 +55,119 @@ public static class DbMigrationHelpers
         using var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
         var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
 
-        var context = scope.ServiceProvider.GetRequiredService<SecurityDbContext>();
-        var contextConteudo = scope.ServiceProvider.GetRequiredService<ConteudoContext>();
-        var contextAluno = scope.ServiceProvider.GetRequiredService<AlunoContext>();
+        var contextSecurity = scope.ServiceProvider.GetRequiredService<SecurityDbContext>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+        var contextConteudo = scope.ServiceProvider.GetRequiredService<ConteudoDbContext>();
+        var contextAluno = scope.ServiceProvider.GetRequiredService<AlunoDbContext>();
 
         if (env.IsDevelopment() || env.IsEnvironment("Docker") || env.IsStaging())
         {
-            await context.Database.MigrateAsync();
+            await contextSecurity.Database.MigrateAsync();
             await contextConteudo.Database.MigrateAsync();
             await contextAluno.Database.MigrateAsync();
 
-            await EnsureSeedSecurity(context, contextConteudo, contextAluno);
+            await EnsureSeedRoles(contextSecurity);
+            await EnsureSeedSecurity(userManager, contextSecurity, contextConteudo, contextAluno);
         }
     }
 
-    private static async Task EnsureSeedSecurity(SecurityDbContext context, ConteudoContext contextConteudo, AlunoContext contextAluno)
+    private static async Task EnsureSeedRoles(SecurityDbContext contextIdentity)
     {
+        // Verifica se já existem roles criadas
+        if (await contextIdentity.Roles.AnyAsync())
+            return;
 
-        if (!await contextConteudo.Cursos.AnyAsync())
+        // Obtém todos os valores do enum TipoUsuario
+        var tiposUsuario = Enum.GetValues(typeof(TipoUsuario)).Cast<TipoUsuario>();
+
+        foreach (var tipoUsuario in tiposUsuario)
         {
-            var userId = Guid.NewGuid();
-            var userEmail = "teste@crm.com";
-            var conteudoProgramatico = new ConteudoProgramatico("Conteudo Programatico Teste", 1, DateTime.Now);
-            var curso = new Curso("Curso Teste", "Curso Teste Descricao", 100, 10, "Iniciante", "Teste", "Nenhum", conteudoProgramatico);
-
-            await contextConteudo.Cursos.AddAsync(curso);
-
-            await context.Users.AddAsync(new IdentityUser
+            var roleName = tipoUsuario.GetDescription();
+            var normalizedRoleName = roleName.ToUpperInvariant();
+            if (!await contextIdentity.Roles.AnyAsync(r => r.NormalizedName == normalizedRoleName))
             {
-                Id = userId.ToString(),
-                UserName = "AlunoTeste",
-                NormalizedUserName = "ALUNOTESTE",
-                Email = userEmail,
-                NormalizedEmail = "TESTE@CRM.COM",
+                await contextIdentity.Roles.AddAsync(new IdentityRole
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = roleName,
+                    NormalizedName = normalizedRoleName,
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
+                });
+            }
+        }
+    }
+
+    private static async Task EnsureSeedSecurity(UserManager<IdentityUser> userManager, SecurityDbContext contextSecurity, ConteudoDbContext contextConteudo, AlunoDbContext contextAluno)
+    {
+        var userId = Guid.NewGuid();
+        var userEmail = "teste@crm.com";
+        var userAdminEmail = "ADMINISTRADOR@CRM.COM";
+                
+        if (await userManager.FindByEmailAsync(userAdminEmail) == null)
+        {
+            var userAdmin = new IdentityUser
+            {
+                UserName = "Administrador",
+                NormalizedUserName = "ADMINISTRADOR",
+                Email = userAdminEmail,
+                NormalizedEmail = userAdminEmail.ToUpperInvariant(),
                 EmailConfirmed = true,
-                PasswordHash = "AQAAAAIAAYagAAAAEI8VDADrqtpXkqh0aUjERlWI1OPHO77GbMmNYMheOGW4PpoSB3HdROpkrVTk9wyefw==",
                 SecurityStamp = Guid.NewGuid().ToString(),
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
                 LockoutEnabled = true,
                 AccessFailedCount = 0
-            });
+            };
 
-            var aluno = new Aluno(userId, "Aluno Teste", userEmail);
-            aluno.AtualizarHistorico(new HistoricoAprendizado(aluno.Id, curso.Id, DateTime.Now));
-
-            aluno.AdicionarMatricula(curso.Id);
-            await contextAluno.Alunos.AddAsync(aluno);
-
-            await contextConteudo.Commit();
-            await contextAluno.Commit();
-            await context.SaveChangesAsync();
+            var result = await userManager.CreateAsync(userAdmin, "Admin@123");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(userAdmin, TipoUsuario.Administrador.GetDescription().ToUpperInvariant());
+            }
         }
+
+        if (await userManager.FindByEmailAsync(userEmail) == null)
+        {
+            var userAluno = new IdentityUser
+            {
+                Id = userId.ToString(),
+                UserName = "AlunoTeste",
+                NormalizedUserName = "ALUNOTESTE",
+                Email = userEmail,
+                NormalizedEmail = userEmail.ToUpperInvariant(),
+                EmailConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = true,
+                AccessFailedCount = 0
+            };
+
+            var result = await userManager.CreateAsync(userAluno, "Aluno@123");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(userAluno, TipoUsuario.Aluno.GetDescription().ToUpperInvariant());
+            }
+        }
+
+        // Cria um curso de teste
+        var conteudoProgramatico = new ConteudoProgramatico("Conteudo Programatico Teste", 1, DateTime.Now);
+        var curso = new Curso("Curso Teste", "Curso Teste Descricao", 100, 10, "Iniciante", "Teste", "Nenhum", conteudoProgramatico);
+        await contextConteudo.Cursos.AddAsync(curso);
+
+        // Adiciona algumas aulas ao curso
+        var aluno = new Aluno(userId, "Aluno Teste", userEmail);
+        aluno.AtualizarHistorico(new HistoricoAprendizado(aluno.Id, curso.Id, DateTime.Now));
+
+        // Matricula o aluno no curso
+        aluno.AdicionarMatricula(curso.Id);
+        await contextAluno.Alunos.AddAsync(aluno);
+
+        // Salva todas as mudanças nos contextos
+        await contextConteudo.Commit();
+        await contextAluno.Commit();
+        await contextSecurity.SaveChangesAsync();
     }
 }

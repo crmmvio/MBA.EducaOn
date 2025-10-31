@@ -6,15 +6,15 @@ public class Aula : Entity
 {
     public Aula() { }
 
-    public Aula(string codigo, string titulo, string descricao, int ordem, Guid cursoId)
+    public Aula(string codigo, string titulo, string descricao, int ordem, Curso curso)
     {
-        Codigo = codigo;
-        Titulo = titulo;
-        Descricao = descricao;
-        Ordem = ordem;
-        CursoId = cursoId;
-        
+        DefinirCodigo(codigo);
+        DefinirTitulo(titulo);
+        DefinirDescricao(descricao);
+        DefinirOrdem(ordem);
+        DefinirCurso(curso);
         Ativo = true;
+        Materiais = new List<Material>();
     }
 
     public string Codigo { get; private set; }
@@ -25,9 +25,47 @@ public class Aula : Entity
     public Curso Curso { get; private set; }
     public DateTime DataCadastro { get; private set; }
     public bool Ativo { get; private set; }
-    
-    public void AlteraStado(bool ativo) => Ativo = ativo;
 
+    public ICollection<Material> Materiais { get; private set; }
+
+    private void DefinirCodigo(string codigo)
+    {
+        Validacoes.ValidarSeVazio(codigo, "O código da aula é obrigatório.");
+        Validacoes.ValidarTamanho(codigo, CodigoMaxLength, $"O código da aula não pode exceder {CodigoMaxLength} caracteres.");
+        Codigo = codigo;
+    }
+
+    private void DefinirTitulo(string titulo)
+    {
+        Validacoes.ValidarSeVazio(titulo, "O título da aula é obrigatório.");
+        Validacoes.ValidarTamanho(titulo, TituloMaxLength, $"O título da aula não pode exceder {TituloMaxLength} caracteres.");
+
+        Titulo = titulo;
+    }
+
+    private void DefinirDescricao(string descricao)
+    {
+        Validacoes.ValidarSeVazio(descricao, "A descrição da aula é obrigatória.");
+        Validacoes.ValidarTamanho(descricao, DescricaoMaxLength, $"A descrição da aula não pode exceder {DescricaoMaxLength} caracteres.");
+
+        Descricao = descricao;
+    }
+
+    private void DefinirOrdem(int ordem)
+    {
+        Validacoes.ValidarMinimoMaximo(ordem, 1, int.MaxValue, "A ordem da aula deve ser maior que zero.");
+        Ordem = ordem;
+    }
+
+    private void DefinirCurso(Curso curso)
+    {
+        Validacoes.ValidarSeNulo(curso, "O curso associado à aula é obrigatório.");
+        CursoId = curso.Id;
+        Curso = curso;
+    }
+
+    public void AlteraStado(bool ativo) => Ativo = ativo;
+    
     #region Constants
 
     public const int CodigoMaxLength = 20;

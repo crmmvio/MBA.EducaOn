@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MBA.EducaOn.GestaoConteudo.Data.Migrations
 {
-    [DbContext(typeof(ConteudoContext))]
+    [DbContext(typeof(ConteudoDbContext))]
     partial class ConteudoContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -35,9 +35,6 @@ namespace MBA.EducaOn.GestaoConteudo.Data.Migrations
                     b.Property<Guid>("CursoId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("CursoId1")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("TEXT");
 
@@ -56,11 +53,10 @@ namespace MBA.EducaOn.GestaoConteudo.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PK_AULA");
 
                     b.HasIndex("CursoId");
-
-                    b.HasIndex("CursoId1");
 
                     b.ToTable("Aulas", (string)null);
                 });
@@ -113,22 +109,58 @@ namespace MBA.EducaOn.GestaoConteudo.Data.Migrations
                     b.Property<decimal>("Valor")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PK_CURSO");
 
                     b.ToTable("Cursos", (string)null);
                 });
 
+            modelBuilder.Entity("MBA.EducaOn.GestaoConteudo.Domain.Material", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("AulaId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .IsUnicode(false)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .IsUnicode(false)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UrlArquivo")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .IsUnicode(false)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UrlLinkSiteReferencia")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .IsUnicode(false)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id")
+                        .HasName("PK_MATERIAL");
+
+                    b.HasIndex("AulaId");
+
+                    b.ToTable("Materiais", (string)null);
+                });
+
             modelBuilder.Entity("MBA.EducaOn.GestaoConteudo.Domain.Aula", b =>
                 {
-                    b.HasOne("MBA.EducaOn.GestaoConteudo.Domain.Curso", null)
+                    b.HasOne("MBA.EducaOn.GestaoConteudo.Domain.Curso", "Curso")
                         .WithMany("Aulas")
                         .HasForeignKey("CursoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MBA.EducaOn.GestaoConteudo.Domain.Curso", "Curso")
-                        .WithMany()
-                        .HasForeignKey("CursoId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -166,6 +198,23 @@ namespace MBA.EducaOn.GestaoConteudo.Data.Migrations
 
                     b.Navigation("ConteudoProgramatico")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MBA.EducaOn.GestaoConteudo.Domain.Material", b =>
+                {
+                    b.HasOne("MBA.EducaOn.GestaoConteudo.Domain.Aula", "Aula")
+                        .WithMany("Materiais")
+                        .HasForeignKey("AulaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_MATERIAI_AULAS");
+
+                    b.Navigation("Aula");
+                });
+
+            modelBuilder.Entity("MBA.EducaOn.GestaoConteudo.Domain.Aula", b =>
+                {
+                    b.Navigation("Materiais");
                 });
 
             modelBuilder.Entity("MBA.EducaOn.GestaoConteudo.Domain.Curso", b =>

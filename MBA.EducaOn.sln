@@ -41,7 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F2F5930F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBA.EduacaOn.GestaoConteudo.Application.Test", "tests\Unitarios\MBA.EduacaOn.Cadastro.Application.Test\MBA.EduacaOn.GestaoConteudo.Application.Test.csproj", "{519F68F6-9FD4-8086-A323-F79F75290C28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBA.EducaOn.GestaoAlunos.Application", "tests\Unitarios\MBA.EducaOn.GestaoAlunos.Application\MBA.EducaOn.GestaoAlunos.Application.csproj", "{DB4681BC-43B4-40C6-B05B-08D34C5B08C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBA.EducaOn.GestaoAlunos.Application.Test", "tests\Unitarios\MBA.EducaOn.GestaoAlunos.Application\MBA.EducaOn.GestaoAlunos.Application.Test.csproj", "{DB4681BC-43B4-40C6-B05B-08D34C5B08C2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BoundedContexts", "BoundedContexts", "{14E32927-E954-42A2-82D2-AF6DD65CE16D}"
 EndProject

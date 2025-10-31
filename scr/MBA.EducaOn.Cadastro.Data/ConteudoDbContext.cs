@@ -1,19 +1,18 @@
 ﻿using MBA.EducaOn.Core.Data;
 using MBA.EducaOn.Core.Messages;
-using MBA.EducaOn.GestaoAlunos.Domain;
+using MBA.EducaOn.GestaoConteudo.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace MBA.EducaOn.GestaoAlunos.Data;
+namespace MBA.EducaOn.GestaoConteudo.Data;
 
-public class AlunoContext : DbContext, IUnitOfWork
+public class ConteudoDbContext : DbContext, IUnitOfWork
 {
+    public ConteudoDbContext(DbContextOptions<ConteudoDbContext> options)
+        : base(options) { }
 
-    public AlunoContext(DbContextOptions<AlunoContext> options)
-    : base(options) { }
-
-    public DbSet<Aluno> Alunos { get; set; }
-    public DbSet<Certificado> Certificados { get; set; }
-    public DbSet<Matricula> Matriculas { get; set; }
+    public DbSet<Curso> Cursos { get; set; }
+    public DbSet<Aula> Aulas { get; set; }
+    public DbSet<Material> Materiais { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -22,7 +21,7 @@ public class AlunoContext : DbContext, IUnitOfWork
 
         modelBuilder.Ignore<Event>();
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AlunoContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ConteudoDbContext).Assembly);
     }
 
     public async Task<bool> Commit()

@@ -20,13 +20,13 @@ namespace MBA.EducaOn.GestaoAlunos.Data.Migrations
                     Email = table.Column<string>(type: "TEXT", unicode: false, maxLength: 200, nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Ativo = table.Column<bool>(type: "INTEGER", nullable: false),
-                    CursoId = table.Column<Guid>(type: "TEXT", nullable: false),
                     AulaId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CursoId = table.Column<Guid>(type: "TEXT", nullable: false),
                     DataAprendizado = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Alunos", x => x.Id);
+                    table.PrimaryKey("PK_ALUNO", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -41,9 +41,9 @@ namespace MBA.EducaOn.GestaoAlunos.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Certificados", x => x.Id);
+                    table.PrimaryKey("PK_CERTIFICADO", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Certificados_Alunos_AlunoId",
+                        name: "FK_ALUNO_CERTIFICADO",
                         column: x => x.AlunoId,
                         principalTable: "Alunos",
                         principalColumn: "Id",
@@ -56,15 +56,16 @@ namespace MBA.EducaOn.GestaoAlunos.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     AlunoId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CursoId = table.Column<Guid>(type: "TEXT", nullable: false),
                     DataMatricula = table.Column<DateTime>(type: "TEXT", nullable: false),
                     DataValidade = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Ativo = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Matriculas", x => x.Id);
+                    table.PrimaryKey("PK_MATRICULA", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Matriculas_Alunos_AlunoId",
+                        name: "FK_ALUNO_MATRICULA",
                         column: x => x.AlunoId,
                         principalTable: "Alunos",
                         principalColumn: "Id",

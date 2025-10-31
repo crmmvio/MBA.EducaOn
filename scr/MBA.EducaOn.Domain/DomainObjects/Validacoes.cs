@@ -151,4 +151,28 @@ public static class Validacoes
             throw new DomainException(mensagem);
         }
     }
+
+    public static void ValidarDataSeNula(DateTime? dataValor, string mensagem)
+    {
+        if(!dataValor.HasValue)
+        {
+            throw new DomainException(mensagem);
+        }
+    }
+
+    public static void ValidarDataPassada(DateTime dataValor, string mensagem)
+    {
+        if(dataValor < DateTime.Now)
+        {
+            throw new DomainException(mensagem);
+        }
+    }
+
+    public static void ValidarDataFutura(DateTime dataValor, string mensagem)
+    {
+        if(dataValor > DateTime.Now)
+        {
+            throw new DomainException(mensagem);
+        }
+    }
 }

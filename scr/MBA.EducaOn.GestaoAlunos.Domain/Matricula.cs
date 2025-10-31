@@ -23,4 +23,11 @@ public class Matricula : Entity, IAggregateRoot
     public Aluno Aluno { get; set; }
 
     public void AlteraStatus(bool ativo) => Ativo = ativo;
+
+    public void Validar()
+    {
+        Validacoes.ValidarSeNulo(AlunoId, "O ID do aluno é obrigatório.");
+        Validacoes.ValidarSeNulo(CursoId, "O ID do curso é obrigatório.");
+        Validacoes.ValidarDataSeNula(DataMatricula, "A data de matrícula é obrigatória.");
+    }
 }

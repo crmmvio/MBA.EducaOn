@@ -1,4 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MBA.EducaOn.GestaoAlunos.Application.Services;
+using MBA.EducaOn.GestaoAlunos.Data.Repository;
+using MBA.EducaOn.GestaoAlunos.Domain.Interfaces.Repositories;
+using MBA.EducaOn.GestaoConteudo.Application.Services;
+using MBA.EducaOn.GestaoConteudo.Data.Repository;
+using MBA.EducaOn.GestaoConteudo.Domain.Interfaces.Repositories;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -15,24 +21,31 @@ public static class DependencyInjectionRegisterExtensions
     /// <param name="configuration">A configuração da aplicação utilizada para registrar serviços dependentes de configuração.</param>
     public static void AddDependencyInjectionRegister(this IServiceCollection services, IConfiguration configuration)
     {
+        var licenseKey = configuration.GetSection("mediator-license")?.Value;
         //MediatR
-        //services.AddMediatR(cfg => {
-        //    cfg.LicenseKey = configuration.GetSection("mediator-license")?.Value;
-        //    cfg.RegisterServicesFromAssemblies(Assembly.Load("MBA.EducaOn.Core"));
-        //});
+        services.AddMediatR(cfg =>
+        {
+            cfg.LicenseKey = licenseKey;
+            cfg.RegisterServicesFromAssemblies(Assembly.Load("MBA.EducaOn.Core"));
+        });
 
-        //Repository
+        //AutoMapper
+        services.AddAutoMapper(cfg =>
+        {
+            cfg.LicenseKey = licenseKey;
+        },
+        Assembly.Load("MBA.EducaOn.GestaoConteudo.Application"),
+        Assembly.Load("MBA.EducaOn.GestaoAlunos.Application"));
 
-        //Service
-        
+        //BC - Conteudo
+        services.AddScoped<ICursoRepository, CursoRepository>();
+        services.AddScoped<ICursoService, CursoService>();
+
+        //BC- Alunos
+        services.AddScoped<IAlunoRepository, AlunoRepository>();
+        services.AddScoped<IAlunoService, AlunoService>();
+
         //EventSourcing
 
-        //Configurations.DataContextSetup.AddDataContextPool(services, configuration);
-
-        //Configurations.RepositorySetup.AddRepositories(services);
-        //Configurations.ServiceSetup.AddServices(services);
-        //Configurations.IdentitySetup.AddIdentity(services, configuration);
-        //Configurations.AutoMapperSetup.AddAutoMapper(services);
-        //Configurations.MediatRSetup.AddMediatR(services);
     }
 }

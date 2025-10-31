@@ -9,7 +9,8 @@ public class AlunoMapping : IEntityTypeConfiguration<Aluno>
     public void Configure(EntityTypeBuilder<Aluno> builder)
     {
         builder.ToTable("Alunos");
-        builder.HasKey(a => a.Id);
+        builder.HasKey(a => a.Id)
+               .HasName("PK_ALUNO");
 
         builder.Property(a => a.Nome)
                .HasMaxLength(Aluno.NomeMaxLength)
@@ -41,10 +42,12 @@ public class AlunoMapping : IEntityTypeConfiguration<Aluno>
 
         builder.HasMany(a => a.Matriculas)
                .WithOne(m => m.Aluno)
-               .HasForeignKey(m => m.AlunoId);
+               .HasForeignKey(m => m.AlunoId)
+               .HasConstraintName("FK_ALUNO_MATRICULA");
 
         builder.HasMany(a => a.Certificados)
                .WithOne(c => c.Aluno)
-               .HasForeignKey(c => c.AlunoId);
+               .HasForeignKey(c => c.AlunoId)
+               .HasConstraintName("FK_ALUNO_CERTIFICADO");
     }
 }

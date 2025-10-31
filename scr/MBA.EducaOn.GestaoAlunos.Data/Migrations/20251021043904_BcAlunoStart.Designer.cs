@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MBA.EducaOn.GestaoAlunos.Data.Migrations
 {
-    [DbContext(typeof(AlunoContext))]
-    [Migration("20251010023541_BcAlunoStart")]
+    [DbContext(typeof(AlunoDbContext))]
+    [Migration("20251021043904_BcAlunoStart")]
     partial class BcAlunoStart
     {
         /// <inheritdoc />
@@ -44,7 +44,8 @@ namespace MBA.EducaOn.GestaoAlunos.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PK_ALUNO");
 
                     b.ToTable("Alunos", (string)null);
                 });
@@ -70,7 +71,8 @@ namespace MBA.EducaOn.GestaoAlunos.Data.Migrations
                     b.Property<DateTime>("DataEmissao")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PK_CERTIFICADO");
 
                     b.HasIndex("AlunoId");
 
@@ -89,13 +91,18 @@ namespace MBA.EducaOn.GestaoAlunos.Data.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid>("CursoId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("CursoId");
+
                     b.Property<DateTime>("DataMatricula")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DataValidade")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PK_MATRICULA");
 
                     b.HasIndex("AlunoId");
 
@@ -139,7 +146,8 @@ namespace MBA.EducaOn.GestaoAlunos.Data.Migrations
                         .WithMany("Certificados")
                         .HasForeignKey("AlunoId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_ALUNO_CERTIFICADO");
 
                     b.Navigation("Aluno");
                 });
@@ -150,7 +158,8 @@ namespace MBA.EducaOn.GestaoAlunos.Data.Migrations
                         .WithMany("Matriculas")
                         .HasForeignKey("AlunoId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_ALUNO_MATRICULA");
 
                     b.Navigation("Aluno");
                 });

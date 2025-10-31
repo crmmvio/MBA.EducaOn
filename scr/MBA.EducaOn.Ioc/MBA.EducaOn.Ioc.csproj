@@ -14,9 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MBA.EducaOn.Cadastro.Application\MBA.EducaOn.GestaoConteudo.Application.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.Cadastro.Data\MBA.EducaOn.GestaoConteudo.Data.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.Cadastro.Domain\MBA.EducaOn.GestaoConteudo.Domain.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.Domain\MBA.EducaOn.Core.csproj" />
+    <ProjectReference Include="..\MBA.EducaOn.GestaoAlunos.Application\MBA.EducaOn.GestaoAlunos.Application.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.GestaoAlunos.Data\MBA.EducaOn.GestaoAlunos.Data.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.GestaoAlunos.Domain\MBA.EducaOn.GestaoAlunos.Domain.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.Security\MBA.EducaOn.Security.csproj" />

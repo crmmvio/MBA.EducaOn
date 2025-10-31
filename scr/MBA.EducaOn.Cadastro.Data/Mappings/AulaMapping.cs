@@ -9,7 +9,8 @@ public class AulaMapping : IEntityTypeConfiguration<Aula>
     public void Configure(EntityTypeBuilder<Aula> builder)
     {
         builder.ToTable("Aulas");
-        builder.HasKey(a => a.Id);
+        builder.HasKey(a => a.Id)
+               .HasName("PK_AULA");
 
         builder.Property(a => a.Codigo)
                .HasMaxLength(Aula.CodigoMaxLength)
@@ -31,8 +32,10 @@ public class AulaMapping : IEntityTypeConfiguration<Aula>
 
         builder.Property(a => a.DataCadastro)
                .IsRequired();
-
-        
-
+                
+        builder.HasMany(c=> c.Materiais)
+               .WithOne(m => m.Aula)
+               .HasForeignKey(m => m.AulaId)
+               .HasConstraintName("FK_MATERIAI_AULAS");
     }
 }

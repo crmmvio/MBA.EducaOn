@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MBA.EducaOn.Cadastro.Application\MBA.EducaOn.GestaoConteudo.Application.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.Ioc\MBA.EducaOn.Ioc.csproj" />
   </ItemGroup>
 

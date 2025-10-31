@@ -9,7 +9,8 @@ public class CursoMapping : IEntityTypeConfiguration<Curso>
     public void Configure(EntityTypeBuilder<Curso> builder)
     {
         builder.ToTable("Cursos");
-        builder.HasKey(a => a.Id);
+        builder.HasKey(a => a.Id)
+               .HasName("PK_CURSO");
 
         builder.Property(c => c.Nome)
                .HasMaxLength(Curso.NomeMaxLength)
@@ -62,7 +63,7 @@ public class CursoMapping : IEntityTypeConfiguration<Curso>
                .IsRequired();
 
         builder.HasMany(c=> c.Aulas)
-               .WithOne()
+               .WithOne(c=> c.Curso)
                .HasForeignKey(a => a.CursoId);
 
     }

@@ -21,13 +21,13 @@ public class AuthController : ControllerBase
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SecurityDbContext _secContext;
-    private readonly AlunoContext _alunosContext;
+    private readonly AlunoDbContext _alunosContext;
     private readonly JwtSettings _jwtSettings;
 
     public AuthController(SignInManager<IdentityUser> signInManager,
                           UserManager<IdentityUser> userManager,
                           SecurityDbContext securityContext,
-                          AlunoContext alunosContext,
+                          AlunoDbContext alunosContext,
                           IOptions<JwtSettings> jwtSettings)
     {
         _signInManager = signInManager;

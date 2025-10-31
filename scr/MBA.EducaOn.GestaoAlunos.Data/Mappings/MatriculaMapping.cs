@@ -9,7 +9,8 @@ public class MatriculaMapping : IEntityTypeConfiguration<Matricula>
     public void Configure(EntityTypeBuilder<Matricula> builder)
     {
         builder.ToTable("Matriculas");
-        builder.HasKey(a => a.Id);
+        builder.HasKey(a => a.Id)
+               .HasName("PK_MATRICULA");
 
         builder.Property(a => a.CursoId)
                .HasColumnName("CursoId")

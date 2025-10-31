@@ -1,4 +1,5 @@
 using MBA.EducaOn.Api.Configurations;
+using MBA.EducaOn.Ioc;
 using MBA.EducaOn.Ioc.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ builder.AddApiConfig()
        .AddCorsConfig()
        .AddSwaggerConfig()
        .AddIdentityConfig();
+
+builder.Services.AddDependencyInjectionRegister(builder.Configuration);
 
 var app = builder.Build();
 

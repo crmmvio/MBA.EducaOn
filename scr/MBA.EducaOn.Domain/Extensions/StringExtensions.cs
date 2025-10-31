@@ -12,3 +12,4 @@ public static class StringExtensions
         return Guid.TryParse(value, out var guid) ? guid : Guid.Empty;
     }
 }
+ 

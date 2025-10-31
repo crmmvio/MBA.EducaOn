@@ -9,7 +9,8 @@ public class CertificadoMapping : IEntityTypeConfiguration<Certificado>
     public void Configure(EntityTypeBuilder<Certificado> builder)
     {
         builder.ToTable("Certificados");
-        builder.HasKey(a => a.Id);
+        builder.HasKey(a => a.Id)
+               .HasName("PK_CERTIFICADO");
 
         builder.Property(a => a.CursoId)
                .IsRequired();
