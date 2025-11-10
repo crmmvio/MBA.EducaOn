@@ -30,4 +30,9 @@ public class Matricula : Entity, IAggregateRoot
         Validacoes.ValidarSeNulo(CursoId, "O ID do curso é obrigatório.");
         Validacoes.ValidarDataSeNula(DataMatricula, "A data de matrícula é obrigatória.");
     }
+
+    public override bool EhValido()
+    {
+        return true;
+    }
 }

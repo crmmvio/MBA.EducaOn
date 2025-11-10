@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MBA.EducaOn.GestaoConteudo.Application.ViewModels;
+using MBA.EducaOn.GestaoConteudo.Domain;
 using MBA.EducaOn.GestaoConteudo.Domain.Interfaces.Repositories;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace MBA.EducaOn.GestaoConteudo.Application.Services;
 
@@ -36,18 +36,64 @@ public class CursoService : ICursoService
     }
 
     /// <inheritdoc />
-    public Task Adicionar(CursoViewModel cursoViewModel)
+    public async Task<bool> ExistAsync(Guid id) => await _cursoRepository.ExistAsync(id);
+
+    /// <inheritdoc />
+    public async Task<bool> ExistAsync(string nome) => await _cursoRepository.ExistAsync(nome);
+
+    /// <inheritdoc />
+    public async Task<CursoViewModel> Adicionar(CursoViewModel cursoViewModel)
     {
-        throw new NotImplementedException();
+        var curso = _mapper.Map<Curso>(cursoViewModel);
+        _cursoRepository.Adicionar(curso);
+        await _cursoRepository.UnitOfWork.Commit();
+
+        return _mapper.Map<CursoViewModel>(curso);
     }
 
     /// <inheritdoc />
-    public Task<CursoViewModel> Atualizar(CursoViewModel cursoViewModel)
+    public async Task<CursoViewModel> Atualizar(CursoViewModel cursoViewModel)
     {
-        throw new NotImplementedException();
+        var curso = _mapper.Map<Curso>(cursoViewModel);
+        _cursoRepository.Atualizar(curso);
+
+        await _cursoRepository.UnitOfWork.Commit();
+
+        return cursoViewModel;
+    }
+
+    /// <inheritdoc />
+    public async Task Deletar(Guid id)
+    {
+        await _cursoRepository.Deletar(id);
+        await _cursoRepository.UnitOfWork.Commit();
+    }
+
+    /// <inheritdoc />
+    public async Task<CursoViewModel> AdicionarAula(AulaViewModel aulaViewModel)
+    {
+        var curso = await _cursoRepository.ObterPorIdAsync(aulaViewModel.CursoId);
+        var aula = _mapper.Map<Aula>(aulaViewModel);
+
+        curso.AdicionarAula(aula);
+
+        await _cursoRepository.UnitOfWork.Commit();
+        return _mapper.Map<CursoViewModel>(curso);
+    }
+
+    public async Task<CursoViewModel> DeletarAulaAsync(Guid id)
+    {
+        var curso = await _cursoRepository.ObterPorIdAsync(id);
+        var aula = curso.Aulas.First(e=> e.Id == id);
+
+        curso.RemoverAula(aula);
+        
+        await _cursoRepository.UnitOfWork.Commit();
+        return _mapper.Map<CursoViewModel>(curso);
     }
 
     #region Dispose
+
     protected virtual void Dispose(bool disposing)
     {
         if (!disposedValue)
@@ -65,6 +111,7 @@ public class CursoService : ICursoService
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
+
     #endregion
 
 }

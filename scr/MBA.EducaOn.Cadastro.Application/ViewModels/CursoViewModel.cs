@@ -10,6 +10,12 @@ public class CursoViewModel
     public string PublicoAlvo { get;  set; }
     public string Objetivo { get;  set; }
     public string Requisitos { get;  set; }
+    public string ConteudoDescricao { get; set; }
+    public int Revisao { get; set; }
+    public DateTime DataRevisao { get; set; }
     public DateTime DataCadastro { get;  set; }
     public bool Ativo { get;  set; }
+
+    public IEnumerable<AulaViewModel> Aulas { get; set; }
+
 }

@@ -4,17 +4,17 @@ namespace MBA.EducaOn.GestaoConteudo.Domain;
 
 public class Aula : Entity
 {
-    public Aula() { }
+    protected Aula() { }
 
-    public Aula(string codigo, string titulo, string descricao, int ordem, Curso curso)
+    public Aula(Guid cursoId, string codigo, string titulo, string descricao, int ordem)
     {
+        CursoId = cursoId;
         DefinirCodigo(codigo);
         DefinirTitulo(titulo);
         DefinirDescricao(descricao);
         DefinirOrdem(ordem);
-        DefinirCurso(curso);
         Ativo = true;
-        Materiais = new List<Material>();
+        _materiais = new List<Material>();
     }
 
     public string Codigo { get; private set; }
@@ -26,7 +26,8 @@ public class Aula : Entity
     public DateTime DataCadastro { get; private set; }
     public bool Ativo { get; private set; }
 
-    public ICollection<Material> Materiais { get; private set; }
+    private readonly List<Material> _materiais;
+    public IReadOnlyCollection<Material> Materiais => _materiais.AsReadOnly();
 
     private void DefinirCodigo(string codigo)
     {
@@ -66,6 +67,21 @@ public class Aula : Entity
 
     public void AlteraStado(bool ativo) => Ativo = ativo;
     
+    public void AdicionarMaterial(Material material)
+    {
+        _materiais.Add(material);
+    }
+
+    public void RemoverMaterial(Material material)
+    {
+        _materiais.Remove(material);
+    }
+
+    public override bool EhValido()
+    {
+        return true;
+    }
+
     #region Constants
 
     public const int CodigoMaxLength = 20;

@@ -35,15 +35,23 @@ public class AlunoService : IAlunoService
     }
 
     /// <inheritdoc />
-    public Task Adicionar(AlunoViewModel cursoViewModel)
+    public async Task Adicionar(AlunoViewModel cursoViewModel)
     {
-        throw new NotImplementedException();
+        var aluno = _mapper.Map<Domain.Aluno>(cursoViewModel);
+        _alunoRepository.Adicionar(aluno);
+
+        await _alunoRepository.UnitOfWork.Commit();
     }
 
     /// <inheritdoc />
-    public Task<AlunoViewModel> Atualizar(AlunoViewModel cursoViewModel)
+    public async Task<AlunoViewModel> Atualizar(AlunoViewModel cursoViewModel)
     {
-        throw new NotImplementedException();
+        var aluno = _mapper.Map<Domain.Aluno>(cursoViewModel);
+        _alunoRepository.Atualizar(aluno);
+
+        await _alunoRepository.UnitOfWork.Commit();
+
+        return cursoViewModel;
     }
 
     #region Dispose

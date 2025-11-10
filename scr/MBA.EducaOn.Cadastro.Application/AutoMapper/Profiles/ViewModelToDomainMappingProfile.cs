@@ -8,6 +8,22 @@ public class ViewModelToDomainMappingProfile :Profile
 {
     public ViewModelToDomainMappingProfile()
     {
-        CreateMap<CursoViewModel, Curso>();
+        CreateMap<CursoViewModel, Curso>()
+            .ConstructUsing(c =>
+                new Curso(c.Nome, 
+                          c.Descricao, 
+                          c.Valor, 
+                          c.CargaHoraria, 
+                          c.PublicoAlvo, 
+                          c.Objetivo,
+                          c.Requisitos, 
+                          new ConteudoProgramatico(c.ConteudoDescricao, c.Revisao, c.DataRevisao)
+                )
+            );
+
+        CreateMap<AulaViewModel, Aula>()
+            .ConstructUsing( c=> 
+                new Aula(c.CursoId, c.Codigo, c.Titulo, c.Descricao, c.Ordem)
+            );
     }
 }

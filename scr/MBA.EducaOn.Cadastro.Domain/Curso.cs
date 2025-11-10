@@ -4,9 +4,10 @@ namespace MBA.EducaOn.GestaoConteudo.Domain;
 
 public class Curso : Entity, IAggregateRoot
 {
-    protected Curso() { }
+    protected Curso(){}
 
-    public Curso(string nome, string descricao, decimal valor, int cargaHoraria, string publicoAlvo, string objetivo, string requisitos, ConteudoProgramatico conteudoProgramatico)
+    public Curso(string nome, string descricao, decimal valor, int cargaHoraria,
+        string publicoAlvo, string objetivo, string requisitos, ConteudoProgramatico conteudoProgramatico)
     {
         DefinirNome(nome);
         DefinirDescricao(descricao);
@@ -17,9 +18,7 @@ public class Curso : Entity, IAggregateRoot
         DefinirRequisitos(requisitos);
         AlterarConteudoProgramatico(conteudoProgramatico);
 
-        Ativo = true;
-        Aulas = new List<Aula>();
-
+        Ativo = true;        
     }
 
     public string Nome { get; private set; }
@@ -33,7 +32,8 @@ public class Curso : Entity, IAggregateRoot
     public DateTime DataCadastro { get; private set; }
     public ConteudoProgramatico ConteudoProgramatico { get; private set; }
 
-    public ICollection<Aula> Aulas { get; private set; }
+    private List<Aula> _aulas;
+    public IReadOnlyCollection<Aula> Aulas => _aulas;
 
     public void AlteraStado(bool ativo) => Ativo = ativo;
 
@@ -42,13 +42,18 @@ public class Curso : Entity, IAggregateRoot
         ConteudoProgramatico = conteudoProgramatico;
     }
 
-    public void AdicionarAula(Aula aulta)
+    public void AdicionarAula(Aula aula)
     {
-        Aulas.Add(aulta);
+        if (_aulas == null)
+            _aulas = new List<Aula>();
+
+        _aulas.Add(aula);
     }
+
     public void RemoverAula(Aula aula)
     {
-        Aulas.Remove(aula);
+        if (_aulas != null && _aulas.Count > 0)
+            _aulas.Remove(aula);
     }
 
     private void DefinirNome(string nome)
@@ -96,6 +101,11 @@ public class Curso : Entity, IAggregateRoot
         Validacoes.ValidarSeVazio(requisitos, "Os requisitos do curso são obrigatórios.");
         Validacoes.ValidarTamanho(requisitos, RequisitosMaxLength, $"Os requisitos do curso não podem exceder {RequisitosMaxLength} caracteres.");
         Requisitos = requisitos;
+    }
+
+    public override bool EhValido()
+    {
+        return true;
     }
 
     #region Constants

@@ -1,9 +1,13 @@
-﻿using MBA.EducaOn.GestaoAlunos.Application.Services;
+﻿using MBA.EducaOn.Core.Communication.Mediator;
+using MBA.EducaOn.Core.Data.EventSourcing;
+using MBA.EducaOn.Core.Messages.CommonMessages.Notifications;
+using MBA.EducaOn.GestaoAlunos.Application.Services;
 using MBA.EducaOn.GestaoAlunos.Data.Repository;
 using MBA.EducaOn.GestaoAlunos.Domain.Interfaces.Repositories;
 using MBA.EducaOn.GestaoConteudo.Application.Services;
 using MBA.EducaOn.GestaoConteudo.Data.Repository;
 using MBA.EducaOn.GestaoConteudo.Domain.Interfaces.Repositories;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -33,9 +37,21 @@ public static class DependencyInjectionRegisterExtensions
         services.AddAutoMapper(cfg =>
         {
             cfg.LicenseKey = licenseKey;
+            cfg.AllowNullCollections = true;
+            cfg.AllowNullDestinationValues = true;
         },
         Assembly.Load("MBA.EducaOn.GestaoConteudo.Application"),
         Assembly.Load("MBA.EducaOn.GestaoAlunos.Application"));
+
+        //Domain Bus
+        //services.AddScoped<IMediatorHandler, MediatorHandler>();
+
+        // Notifications
+        services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
+
+        // Event Sourcing
+        //services.AddSingleton<IEventStoreService, EventStoreService>();
+        //services.AddSingleton<IEventSourcingRepository, EventSourcingRepository>();
 
         //BC - Conteudo
         services.AddScoped<ICursoRepository, CursoRepository>();

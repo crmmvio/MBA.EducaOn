@@ -100,8 +100,8 @@ public static class DbMigrationHelpers
     private static async Task EnsureSeedSecurity(UserManager<IdentityUser> userManager, SecurityDbContext contextSecurity, ConteudoDbContext contextConteudo, AlunoDbContext contextAluno)
     {
         var userId = Guid.NewGuid();
-        var userEmail = "teste@crm.com";
-        var userAdminEmail = "ADMINISTRADOR@CRM.COM";
+        var userEmail = "alunoteste@crm.com";
+        var userAdminEmail = "administrator@crm.com";
                 
         if (await userManager.FindByEmailAsync(userAdminEmail) == null)
         {
@@ -152,22 +152,25 @@ public static class DbMigrationHelpers
             }
         }
 
-        // Cria um curso de teste
-        var conteudoProgramatico = new ConteudoProgramatico("Conteudo Programatico Teste", 1, DateTime.Now);
-        var curso = new Curso("Curso Teste", "Curso Teste Descricao", 100, 10, "Iniciante", "Teste", "Nenhum", conteudoProgramatico);
-        await contextConteudo.Cursos.AddAsync(curso);
+        if (!contextConteudo.Cursos.Any())
+        {
+            // Cria um curso de teste
+            var conteudoProgramatico = new ConteudoProgramatico("Conteudo Programatico Teste", 1, DateTime.Now);
+            var curso = new Curso("Curso Teste", "Curso Teste Descricao", 100, 10, PublicoAlvo.Iniciante.GetDescription(), "Teste", "Nenhum", conteudoProgramatico);
+            await contextConteudo.Cursos.AddAsync(curso);
 
-        // Adiciona algumas aulas ao curso
-        var aluno = new Aluno(userId, "Aluno Teste", userEmail);
-        aluno.AtualizarHistorico(new HistoricoAprendizado(aluno.Id, curso.Id, DateTime.Now));
+            // Adiciona algumas aulas ao curso
+            var aluno = new Aluno(userId, "Aluno Teste", userEmail);
+            aluno.AtualizarHistorico(new HistoricoAprendizado(aluno.Id, curso.Id, DateTime.Now));
 
-        // Matricula o aluno no curso
-        aluno.AdicionarMatricula(curso.Id);
-        await contextAluno.Alunos.AddAsync(aluno);
+            // Matricula o aluno no curso
+            aluno.AdicionarMatricula(curso.Id);
+            await contextAluno.Alunos.AddAsync(aluno);
 
-        // Salva todas as mudanças nos contextos
-        await contextConteudo.Commit();
-        await contextAluno.Commit();
-        await contextSecurity.SaveChangesAsync();
+            // Salva todas as mudanças nos contextos
+            await contextConteudo.Commit();
+            await contextAluno.Commit();
+            await contextSecurity.SaveChangesAsync();
+        }
     }
 }

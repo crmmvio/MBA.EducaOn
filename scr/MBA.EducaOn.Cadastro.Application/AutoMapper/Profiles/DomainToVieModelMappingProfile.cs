@@ -9,6 +9,7 @@ namespace MBA.EducaOn.GestaoConteudo.Application.AutoMapper.Profiles
         public DomainToVieModelMappingProfile()
         {
             CreateMap<Curso, CursoViewModel>();
+            CreateMap<Aula, AulaViewModel>();
         }
     }
 }

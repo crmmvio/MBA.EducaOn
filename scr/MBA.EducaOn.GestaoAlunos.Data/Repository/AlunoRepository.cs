@@ -33,13 +33,13 @@ public class AlunoRepository : IAlunoRepository
     /// <inheritdoc />
     public void Adicionar(Aluno Aluno)
     {
-        throw new NotImplementedException();
+        _context.Alunos.Add(Aluno);
     }
 
     /// <inheritdoc />
     public void Atualizar(Aluno Aluno)
     {
-        throw new NotImplementedException();
+        _context.Alunos.Update(Aluno);
     }
 
     #region Dispose

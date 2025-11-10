@@ -4,7 +4,7 @@ namespace MBA.EducaOn.GestaoAlunos.Domain;
 
 public class Certificado : Entity
 {
-    public Certificado(){}
+    protected Certificado(){}
 
     public Certificado(Guid alunoId, Guid cursoId, DateTime dataEmissao, string codigo)
     {
@@ -28,6 +28,11 @@ public class Certificado : Entity
         Validacoes.ValidarSeNulo(AlunoId, "O ID do aluno é obrigatório.");
         Validacoes.ValidarSeNulo(CursoId, "O ID do curso é obrigatório");
         Validacoes.ValidarDataSeNula(DataEmissao, "A data de emissão do certificado é obrigatória.");
+    }
+
+    public override bool EhValido()
+    {
+        return true;
     }
 
     #region Constants

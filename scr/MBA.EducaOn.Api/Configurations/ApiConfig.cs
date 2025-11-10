@@ -21,7 +21,7 @@ public static class ApiConfig
                         })
                         .AddJsonOptions(options =>
                         {
-                            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                         });
 
         return builder;
