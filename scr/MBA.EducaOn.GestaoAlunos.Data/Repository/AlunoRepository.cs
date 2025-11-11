@@ -19,7 +19,7 @@ public class AlunoRepository : IAlunoRepository
     public IUnitOfWork UnitOfWork => _context;
 
     /// <inheritdoc />
-    public async Task<Aluno?> ObterPorIdAsync(Guid id)
+    public async Task<Aluno> ObterPorIdAsync(Guid id)
     {
         return await _context.Alunos.FindAsync(id);
     }

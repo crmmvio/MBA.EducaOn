@@ -9,7 +9,7 @@ public interface IAlunoRepository : IRepository<Aluno>
     /// </summary>
     /// <param name="id">O identificador único do Aluno a ser recuperado. Deve ser um Guid válido.</param>
     /// <returns>Uma tarefa que representa a operação assíncrona. O resultado da tarefa contém o objeto <see cref="Aluno"/> se encontrado; caso contrário, <see langword="null"/>.</returns>
-    Task<Aluno?> ObterPorIdAsync(Guid id);
+    Task<Aluno> ObterPorIdAsync(Guid id);
 
     /// <summary>
     /// Recupera assíncronamente todos os Alunos disponíveis.
