@@ -2,7 +2,7 @@
 
 namespace MBA.EducaOn.GestaoAlunos.Domain;
 
-public class Matricula : Entity, IAggregateRoot
+public class Matricula : Entity
 {
     public Matricula(){}
 

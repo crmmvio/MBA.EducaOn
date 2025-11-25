@@ -7,9 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
     <Folder Include="Events\" />
     <Folder Include="Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MBA.EducaOn.Domain\MBA.EducaOn.Core.csproj" />
+    <ProjectReference Include="..\MBA.EducaOn.Vendas.Data\MBA.EducaOn.Vendas.Data.csproj" />
+    <ProjectReference Include="..\MBA.EducaOn.Vendas.Domain\MBA.EducaOn.Vendas.Domain.csproj" />
   </ItemGroup>
 
 </Project>

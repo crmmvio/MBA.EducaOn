@@ -4,7 +4,11 @@ namespace MBA.EducaOn.GestaoAlunos.Domain;
 
 public class Aluno : Entity, IAggregateRoot
 {
-    protected Aluno() { }
+    protected Aluno() 
+    {
+        _matriculas = new List<Matricula>();
+        _certificados = new List<Certificado>();
+    }
 
     public Aluno(Guid id, string nome, string email)
     {

@@ -20,7 +20,7 @@ public class CursoRepository : ICursoRepository
     public IUnitOfWork UnitOfWork => _context;
 
     /// <inheritdoc />
-    public async Task<Curso?> ObterPorIdAsync(Guid id)
+    public async Task<Curso> ObterPorIdAsync(Guid id)
     {
         return await _context.Cursos
                              .Include(c => c.Aulas)
@@ -28,14 +28,11 @@ public class CursoRepository : ICursoRepository
     }
 
     /// <inheritdoc />
-    public async Task<Curso?> ObterPorAulaIdAsync(Guid id)
+    public async Task<Curso> ObterPorAulaIdAsync(Guid id)
     {
         var result = await _context.Cursos
-                                   .Include(e=> e.Aulas)
-                                   .SelectMany(e=> e.Aulas)
-                                   .Where(e=> e.Id == id)
-                                   .Select(e=> e.Curso)
-                                   .FirstOrDefaultAsync();
+                                   .Include(c => c.Aulas)
+                                   .FirstOrDefaultAsync(c => c.Aulas.Any(a => a.Id == id));
 
         return result;
     }

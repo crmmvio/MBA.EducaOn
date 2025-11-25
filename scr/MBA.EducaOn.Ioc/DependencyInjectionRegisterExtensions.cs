@@ -7,6 +7,7 @@ using MBA.EducaOn.GestaoAlunos.Domain.Interfaces.Repositories;
 using MBA.EducaOn.GestaoConteudo.Application.Services;
 using MBA.EducaOn.GestaoConteudo.Data.Repository;
 using MBA.EducaOn.GestaoConteudo.Domain.Interfaces.Repositories;
+using MBA.EducaOn.Vendas.Application.Commands;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,9 +44,6 @@ public static class DependencyInjectionRegisterExtensions
         Assembly.Load("MBA.EducaOn.GestaoConteudo.Application"),
         Assembly.Load("MBA.EducaOn.GestaoAlunos.Application"));
 
-        //Domain Bus
-        //services.AddScoped<IMediatorHandler, MediatorHandler>();
-
         // Notifications
         services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
 
@@ -61,7 +59,7 @@ public static class DependencyInjectionRegisterExtensions
         services.AddScoped<IAlunoRepository, AlunoRepository>();
         services.AddScoped<IAlunoService, AlunoService>();
 
-        //EventSourcing
-
+        //Vendas
+        services.AddScoped<IRequestHandler<AdicionarItemPedidoCommand, bool>, PedidoCommandHandler>();
     }
 }

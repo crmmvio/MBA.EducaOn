@@ -1,5 +1,7 @@
 ﻿using MBA.EducaOn.Core.Extensions;
 using MBA.EducaOn.Core.Models;
+using MBA.EducaOn.GestaoAlunos.Application.Services;
+using MBA.EducaOn.GestaoAlunos.Application.ViewModels;
 using MBA.EducaOn.GestaoAlunos.Data;
 using MBA.EducaOn.GestaoAlunos.Domain;
 using MBA.EducaOn.Security.Data;
@@ -7,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -21,19 +22,19 @@ public class AuthController : ControllerBase
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SecurityDbContext _secContext;
-    private readonly AlunoDbContext _alunosContext;
+    private readonly IAlunoService _alunoService;
     private readonly JwtSettings _jwtSettings;
 
     public AuthController(SignInManager<IdentityUser> signInManager,
                           UserManager<IdentityUser> userManager,
                           SecurityDbContext securityContext,
-                          AlunoDbContext alunosContext,
+                          IAlunoService alunoService,
                           IOptions<JwtSettings> jwtSettings)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _secContext = securityContext;
-        _alunosContext = alunosContext;
+        _alunoService = alunoService;
         _jwtSettings = jwtSettings.Value;
     }
 
@@ -60,11 +61,16 @@ public class AuthController : ControllerBase
 
         if (result.Succeeded)
         {
-            //var aluno = new Aluno(user.Id.ToGuid(), registerUser.Name, user.Email);
-            //_alunosContext.Alunos.Add(aluno);
-
+            var alunoId = new AlunoViewModel
+            {
+                Id = user.Id.ToGuid(),
+                Nome = registerUser.Name,
+                Email = user.Email
+            };
+            await _alunoService.Adicionar(alunoId);
             await _secContext.SaveChangesAsync();
             await _signInManager.SignInAsync(user, false);
+
             return Ok(await GerarJwt(registerUser.Email));
         }
         else

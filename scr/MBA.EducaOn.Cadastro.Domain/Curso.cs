@@ -4,7 +4,10 @@ namespace MBA.EducaOn.GestaoConteudo.Domain;
 
 public class Curso : Entity, IAggregateRoot
 {
-    protected Curso(){}
+    protected Curso()
+    {
+        _aulas = new List<Aula>();
+    }
 
     public Curso(string nome, string descricao, decimal valor, int cargaHoraria,
         string publicoAlvo, string objetivo, string requisitos, ConteudoProgramatico conteudoProgramatico)
@@ -18,7 +21,9 @@ public class Curso : Entity, IAggregateRoot
         DefinirRequisitos(requisitos);
         AlterarConteudoProgramatico(conteudoProgramatico);
 
-        Ativo = true;        
+        Ativo = true;
+
+        _aulas = new List<Aula>();
     }
 
     public string Nome { get; private set; }
@@ -33,7 +38,7 @@ public class Curso : Entity, IAggregateRoot
     public ConteudoProgramatico ConteudoProgramatico { get; private set; }
 
     private List<Aula> _aulas;
-    public IReadOnlyCollection<Aula> Aulas => _aulas;
+    public IReadOnlyCollection<Aula> Aulas => _aulas.AsReadOnly();
 
     public void AlteraStado(bool ativo) => Ativo = ativo;
 
@@ -44,15 +49,12 @@ public class Curso : Entity, IAggregateRoot
 
     public void AdicionarAula(Aula aula)
     {
-        if (_aulas == null)
-            _aulas = new List<Aula>();
-
         _aulas.Add(aula);
     }
 
     public void RemoverAula(Aula aula)
     {
-        if (_aulas != null && _aulas.Count > 0)
+        if (_aulas.Count > 0)
             _aulas.Remove(aula);
     }
 
