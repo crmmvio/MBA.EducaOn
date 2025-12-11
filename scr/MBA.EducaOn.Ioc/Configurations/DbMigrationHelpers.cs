@@ -59,12 +59,14 @@ public static class DbMigrationHelpers
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
         var contextConteudo = scope.ServiceProvider.GetRequiredService<ConteudoDbContext>();
         var contextAluno = scope.ServiceProvider.GetRequiredService<AlunoDbContext>();
+        var contextVendas = scope.ServiceProvider.GetRequiredService<Vendas.Data.VendasDbContext>();
 
         if (env.IsDevelopment() || env.IsEnvironment("Docker") || env.IsStaging())
         {
             await contextSecurity.Database.MigrateAsync();
             await contextConteudo.Database.MigrateAsync();
             await contextAluno.Database.MigrateAsync();
+            await contextVendas.Database.MigrateAsync();
 
             await EnsureSeedRoles(contextSecurity);
             await EnsureSeedSecurity(userManager, contextSecurity, contextConteudo, contextAluno);
@@ -173,4 +175,5 @@ public static class DbMigrationHelpers
             await contextSecurity.SaveChangesAsync();
         }
     }
+
 }

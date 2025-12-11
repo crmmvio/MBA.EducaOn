@@ -2,6 +2,7 @@
 using MBA.EducaOn.GestaoAlunos.Data;
 using MBA.EducaOn.GestaoConteudo.Data;
 using MBA.EducaOn.Security.Data;
+using MBA.EducaOn.Vendas.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,14 @@ public static class DataContextConfig
                        .EnableDetailedErrors()
                        .EnableSensitiveDataLogging();
             });
+
+            //Vendas Context
+            builder.Services.AddDbContextPool<VendasDbContext>(options =>
+            {
+                options.UseSqlite(cnnLite)
+                       .EnableDetailedErrors()
+                       .EnableSensitiveDataLogging();
+            });
         }
         else
         {
@@ -76,10 +85,19 @@ public static class DataContextConfig
                        .EnableDetailedErrors()
                        .EnableSensitiveDataLogging();
             });
+
+            //Vendas Context
+            builder.Services.AddDbContextPool<VendasDbContext>(options =>
+            {
+                options.UseSqlServer(cnn)
+                       .EnableDetailedErrors()
+                       .EnableSensitiveDataLogging();
+            });
         }
 
         builder.Services.AddScoped<AlunoDbContext>();
         builder.Services.AddScoped<ConteudoDbContext>();
+        builder.Services.AddScoped<VendasDbContext>();
         builder.Services.AddScoped<SecurityDbContext>();
         //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();>
     }

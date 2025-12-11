@@ -165,11 +165,12 @@ public class Pedido : Entity, IAggregateRoot
 
     public static class PedidoFactory
     {
-        public static Pedido NovoPedidoRascunho(Guid alunoId)
+        public static Pedido NovoPedidoRascunho(Guid alunoId, int codigo)
         {
             var pedido = new Pedido
             {
-                AlunoId = alunoId
+                AlunoId = alunoId,
+                Codigo = codigo
             };
 
             pedido.TornarRascunho();

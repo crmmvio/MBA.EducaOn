@@ -12,7 +12,7 @@ public class PedidoMapping : IEntityTypeConfiguration<Pedido>
         builder.HasKey(c => c.Id);
 
         builder.Property(c => c.Codigo)
-               .HasDefaultValueSql("NEXT VALUE FOR PedidoSequencia");
+               .IsRequired();
 
         builder.Property(c => c.AlunoId)
                .IsRequired();

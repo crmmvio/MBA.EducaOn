@@ -1,4 +1,5 @@
 ﻿using MBA.EducaOn.Core.Messages;
+using MBA.EducaOn.Core.Messages.CommonMessages.Notifications;
 using MBA.EducaOn.Vendas.Domain;
 using MBA.EducaOn.Vendas.Domain.Interfaces;
 using MediatR;
@@ -24,10 +25,10 @@ public class PedidoCommandHandler :
         var pedido = await _pedidoRepository.ObterPedidoRascunhoPorAlunoId(message.AlunoId);
         var pedidoItem = new PedidoItem(message.CursoId, message.NomeCurso, message.ValorUnitario);
 
-
         if (pedido == null)
         {
-            pedido = Pedido.PedidoFactory.NovoPedidoRascunho(message.AlunoId);
+            var codigoPedido = await _pedidoRepository.ObterProximoCodigo();
+            pedido = Pedido.PedidoFactory.NovoPedidoRascunho(message.AlunoId, codigoPedido);
             pedido.AdicionarItem(pedidoItem);
 
             _pedidoRepository.Adicionar(pedido);
@@ -56,7 +57,7 @@ public class PedidoCommandHandler :
 
         foreach (var error in message.ValidationResult.Errors)
         {
-            // _mediator.Publish(new DomainNotification(message.MessageType, error.ErrorMessage));
+            _mediator.Publish(new DomainNotification(message.MessageType, error.ErrorMessage));
         }
 
         return false;

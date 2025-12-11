@@ -18,6 +18,7 @@
     <ProjectReference Include="..\MBA.EducaOn.Cadastro.Data\MBA.EducaOn.GestaoConteudo.Data.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.Cadastro.Domain\MBA.EducaOn.GestaoConteudo.Domain.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.Domain\MBA.EducaOn.Core.csproj" />
+    <ProjectReference Include="..\MBA.EducaOn.EventSourcing\MBA.EducaOn.EventSourcing.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.GestaoAlunos.Application\MBA.EducaOn.GestaoAlunos.Application.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.GestaoAlunos.Data\MBA.EducaOn.GestaoAlunos.Data.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.GestaoAlunos.Domain\MBA.EducaOn.GestaoAlunos.Domain.csproj" />

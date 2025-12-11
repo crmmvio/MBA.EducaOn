@@ -1,6 +1,8 @@
 ﻿using MBA.EducaOn.Core.Communication.Mediator;
 using MBA.EducaOn.Core.Data.EventSourcing;
 using MBA.EducaOn.Core.Messages.CommonMessages.Notifications;
+using MBA.EducaOn.EventSourcing;
+using MBA.EducaOn.EventSourcing.Interfaces;
 using MBA.EducaOn.GestaoAlunos.Application.Services;
 using MBA.EducaOn.GestaoAlunos.Data.Repository;
 using MBA.EducaOn.GestaoAlunos.Domain.Interfaces.Repositories;
@@ -8,6 +10,8 @@ using MBA.EducaOn.GestaoConteudo.Application.Services;
 using MBA.EducaOn.GestaoConteudo.Data.Repository;
 using MBA.EducaOn.GestaoConteudo.Domain.Interfaces.Repositories;
 using MBA.EducaOn.Vendas.Application.Commands;
+using MBA.EducaOn.Vendas.Data.Repository;
+using MBA.EducaOn.Vendas.Domain.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,12 +48,15 @@ public static class DependencyInjectionRegisterExtensions
         Assembly.Load("MBA.EducaOn.GestaoConteudo.Application"),
         Assembly.Load("MBA.EducaOn.GestaoAlunos.Application"));
 
+        // Mediator
+        services.AddScoped<IMediatorHandler, MediatorHandler>();
+
         // Notifications
         services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
 
         // Event Sourcing
-        //services.AddSingleton<IEventStoreService, EventStoreService>();
-        //services.AddSingleton<IEventSourcingRepository, EventSourcingRepository>();
+        services.AddSingleton<IEventStoreService, EventStoreService>();
+        services.AddSingleton<IEventSourcingRepository, EventSourcingRepository>();
 
         //BC - Conteudo
         services.AddScoped<ICursoRepository, CursoRepository>();
@@ -61,5 +68,6 @@ public static class DependencyInjectionRegisterExtensions
 
         //Vendas
         services.AddScoped<IRequestHandler<AdicionarItemPedidoCommand, bool>, PedidoCommandHandler>();
+        services.AddScoped<IPedidoRepository, PedidoRepository>();
     }
 }

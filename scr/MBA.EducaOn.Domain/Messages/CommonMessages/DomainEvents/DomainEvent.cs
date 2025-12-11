@@ -2,7 +2,7 @@
 
 namespace MBA.EducaOn.Core.Messages.CommonMessages.DomainEvents;
 
-public abstract class DomainEvent : Message, INotification
+public abstract class DomainEvent : Event, INotification
 {
     public DateTime Timestamp { get; private set; }
 

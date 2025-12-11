@@ -84,6 +84,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBA.EducaOn.Pagamentos.Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBA.EducaOn.Pagamentos.AntiCorruption", "scr\MBA.EducaOn.Pagamentos.AntiCorruption\MBA.EducaOn.Pagamentos.AntiCorruption.csproj", "{5858E365-8C02-41F0-82E9-8E8C031B628C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBA.EducaOn.Vendas.Application.Test", "tests\Unitarios\MBA.EducaOn.Vendas.Application.Test\MBA.EducaOn.Vendas.Application.Test.csproj", "{CCBD88D2-AB74-4CF3-BAB4-92924A00735B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -178,6 +180,10 @@ Global
 		{5858E365-8C02-41F0-82E9-8E8C031B628C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5858E365-8C02-41F0-82E9-8E8C031B628C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5858E365-8C02-41F0-82E9-8E8C031B628C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCBD88D2-AB74-4CF3-BAB4-92924A00735B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCBD88D2-AB74-4CF3-BAB4-92924A00735B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCBD88D2-AB74-4CF3-BAB4-92924A00735B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCBD88D2-AB74-4CF3-BAB4-92924A00735B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -216,6 +222,7 @@ Global
 		{319A7A2A-DDFE-4AD6-8C29-F3781DD0B19A} = {FAFF0329-6CF9-4378-935B-52F42BC2342E}
 		{243EDFEE-43F1-4890-8317-7AE08F5720B2} = {FAFF0329-6CF9-4378-935B-52F42BC2342E}
 		{5858E365-8C02-41F0-82E9-8E8C031B628C} = {FAFF0329-6CF9-4378-935B-52F42BC2342E}
+		{CCBD88D2-AB74-4CF3-BAB4-92924A00735B} = {5D6FD177-08D7-4DD5-8913-7CBB474CA882}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4E201B25-D2ED-43B2-B11B-FC83185EA61E}
