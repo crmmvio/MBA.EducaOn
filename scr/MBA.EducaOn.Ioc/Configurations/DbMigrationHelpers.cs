@@ -71,7 +71,7 @@ public static class DbMigrationHelpers
             await EnsureSeedRoles(contextSecurity);
             await EnsureSeedSecurity(userManager, contextSecurity, contextConteudo, contextAluno);
         }
-    }
+    } 
 
     private static async Task EnsureSeedRoles(SecurityDbContext contextIdentity)
     {
