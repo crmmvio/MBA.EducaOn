@@ -1,4 +1,5 @@
-﻿using MBA.EducaOn.Core.DomainObjects;
+﻿using FluentValidation.Results;
+using MBA.EducaOn.Core.DomainObjects;
 
 namespace MBA.EducaOn.Vendas.Domain;
 
@@ -9,15 +10,23 @@ public class Pedido : Entity, IAggregateRoot
         _pedidoItems = new List<PedidoItem>();
     }
 
-    public Pedido(Guid clienteId, bool voucherUtilizado, decimal desconto, decimal valorTotal)
+    public Pedido(Guid pedidoId, decimal valorTotal)
     {
-        AlunoId = clienteId;
+        Id = pedidoId;
+        ValorTotal = valorTotal;
+
+        _pedidoItems = new List<PedidoItem>();
+    }
+
+    public Pedido(Guid alunoId, bool voucherUtilizado, decimal desconto, decimal valorTotal)
+    {
+        AlunoId = alunoId;
         VoucherUtilizado = voucherUtilizado;
         Desconto = desconto;
         ValorTotal = valorTotal;
         _pedidoItems = new List<PedidoItem>();
     }
-        
+
     public int Codigo { get; private set; }
     public Guid AlunoId { get; private set; }
     public Guid? VoucherId { get; private set; }
@@ -125,23 +134,17 @@ public class Pedido : Entity, IAggregateRoot
         CalcularValorPedido();
     }
 
-    //public ValidationResult AplicarVoucher(Voucher voucher)
-    //{
-    //    var validationResult = voucher.ValidarSeAplicavel();
-    //    if (!validationResult.IsValid) return validationResult;
+    public ValidationResult AplicarVoucher(Voucher voucher)
+    {
+        var validationResult = voucher.ValidarSeAplicavel();
+        if (!validationResult.IsValid) return validationResult;
 
-    //    Voucher = voucher;
-    //    VoucherUtilizado = true;
-    //    CalcularValorPedido();
+        Voucher = voucher;
+        VoucherUtilizado = true;
+        CalcularValorPedido();
 
-    //    return validationResult;
-    //}
-
-    //public void AtualizarUnidades(PedidoItem item, int unidades)
-    //{
-    //    item.AtualizarUnidades(unidades);
-    //    AtualizarItem(item);
-    //}
+        return validationResult;
+    }
 
     public void TornarRascunho()
     {

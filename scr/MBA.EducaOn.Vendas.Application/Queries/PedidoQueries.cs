@@ -39,7 +39,7 @@ public class PedidoQueries : IPedidoQueries
             carrinho.Items.Add(new CarrinhoItemViewModel
             {
                 CursoId = item.CursoId,
-                CursoNome = item.CursonNome,
+                CursoNome = item.CursoNome,
                 ValorUnitario = item.ValorUnitario,
                 ValorTotal = item.ValorUnitario
             });

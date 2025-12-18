@@ -8,7 +8,7 @@ public class Material : Entity
 
     public Material(string nome, string descricao, string urlArquivo, string urlLinkReferencia, Aula aula)
     {
-        DefinirNome(Nome);
+        DefinirNome(nome);
         DefinirDescricao(descricao);
         DefinirUrlArquivo(urlArquivo);
         DefinirUrlLinkSiteReferencia(urlLinkReferencia);

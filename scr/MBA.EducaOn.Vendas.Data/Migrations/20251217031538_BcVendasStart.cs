@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MBA.EducaOn.Vendas.Data.Migrations
 {
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage(Justification = "EF Migrations não será testada neste momento")]
     public partial class BcVendasStart : Migration
     {
         /// <inheritdoc />
@@ -63,7 +65,7 @@ namespace MBA.EducaOn.Vendas.Data.Migrations
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     PedidoId = table.Column<Guid>(type: "TEXT", nullable: false),
                     CursoId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    CursonNome = table.Column<string>(type: "TEXT", unicode: false, maxLength: 200, nullable: false),
+                    CursoNome = table.Column<string>(type: "TEXT", unicode: false, maxLength: 200, nullable: false),
                     ValorUnitario = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

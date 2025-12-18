@@ -55,6 +55,7 @@ public class CarrinhoController : ControllerNotificationBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
     [Route("adicionar-item/{alunoId}/{cursoId}")]
     public async Task<IActionResult> AdicionarItem(Guid alunoId, Guid cursoId)
     {
@@ -92,6 +93,7 @@ public class CarrinhoController : ControllerNotificationBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
     [Route("remover-item")]
     public async Task<IActionResult> RemoverItem(Guid alunoId, Guid cursoId)
     {
@@ -118,6 +120,7 @@ public class CarrinhoController : ControllerNotificationBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
     [Route("aplicar-voucher")]
     public async Task<IActionResult> AplicarVoucher(Guid alunoId, string voucherCodigo)
     {
@@ -141,6 +144,7 @@ public class CarrinhoController : ControllerNotificationBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
     [Route("resumo-da-compra")]
     public async Task<IActionResult> ResumoDaCompra(Guid alunoId)
     {
@@ -172,6 +176,7 @@ public class CarrinhoController : ControllerNotificationBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
     [Route("iniciar-pedido")]
     public async Task<IActionResult> IniciarPedido(CarrinhoViewModel carrinhoViewModel)
     {

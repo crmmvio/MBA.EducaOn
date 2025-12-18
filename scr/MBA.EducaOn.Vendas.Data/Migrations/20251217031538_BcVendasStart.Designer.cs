@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MBA.EducaOn.Vendas.Data.Migrations
 {
     [DbContext(typeof(VendasDbContext))]
-    [Migration("20251210225803_BcVendasStart")]
+    [Migration("20251217031538_BcVendasStart")]
     partial class BcVendasStart
     {
         /// <inheritdoc />
@@ -30,7 +30,6 @@ namespace MBA.EducaOn.Vendas.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Codigo")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DataCadastro")
@@ -68,7 +67,7 @@ namespace MBA.EducaOn.Vendas.Data.Migrations
                     b.Property<Guid>("CursoId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CursonNome")
+                    b.Property<string>("CursoNome")
                         .IsRequired()
                         .HasMaxLength(200)
                         .IsUnicode(false)

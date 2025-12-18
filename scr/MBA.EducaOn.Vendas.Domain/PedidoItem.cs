@@ -9,13 +9,13 @@ public class PedidoItem : Entity
     public PedidoItem(Guid cursoId, string cursoNome, decimal valorUnitario)
     {
         CursoId = cursoId;
-        CursonNome = cursoNome;
+        CursoNome = cursoNome;
         ValorUnitario = valorUnitario;
     }
 
     public Guid PedidoId { get; private set; }
     public Guid CursoId { get; private set; }
-    public string CursonNome { get; private set; }
+    public string CursoNome { get; private set; }
     public decimal ValorUnitario { get; private set; }
 
     public Pedido Pedido { get; set; }

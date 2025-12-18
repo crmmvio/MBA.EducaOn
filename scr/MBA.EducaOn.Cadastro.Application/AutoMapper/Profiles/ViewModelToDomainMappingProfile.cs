@@ -19,11 +19,13 @@ public class ViewModelToDomainMappingProfile :Profile
                           c.Requisitos, 
                           new ConteudoProgramatico(c.ConteudoDescricao, c.Revisao, c.DataRevisao)
                 )
-            );
+            )
+            .IgnoreAllPropertiesWithAnInaccessibleSetter();
 
         CreateMap<AulaViewModel, Aula>()
             .ConstructUsing( c=> 
                 new Aula(c.CursoId, c.Codigo, c.Titulo, c.Descricao, c.Ordem)
-            );
+            )
+            .IgnoreAllPropertiesWithAnInaccessibleSetter();
     }
 }

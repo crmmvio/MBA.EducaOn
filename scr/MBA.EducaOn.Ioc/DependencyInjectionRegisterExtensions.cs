@@ -1,5 +1,6 @@
 ﻿using MBA.EducaOn.Core.Communication.Mediator;
 using MBA.EducaOn.Core.Data.EventSourcing;
+using MBA.EducaOn.Core.Messages.CommonMessages.IntegrationEvents;
 using MBA.EducaOn.Core.Messages.CommonMessages.Notifications;
 using MBA.EducaOn.EventSourcing;
 using MBA.EducaOn.EventSourcing.Interfaces;
@@ -9,7 +10,15 @@ using MBA.EducaOn.GestaoAlunos.Domain.Interfaces.Repositories;
 using MBA.EducaOn.GestaoConteudo.Application.Services;
 using MBA.EducaOn.GestaoConteudo.Data.Repository;
 using MBA.EducaOn.GestaoConteudo.Domain.Interfaces.Repositories;
+using MBA.EducaOn.Pagamentos.AntiCorruption;
+using MBA.EducaOn.Pagamentos.AntiCorruption.Interfaces;
+using MBA.EducaOn.Pagamentos.Business.Events;
+using MBA.EducaOn.Pagamentos.Business.Interfaces;
+using MBA.EducaOn.Pagamentos.Business.Services;
+using MBA.EducaOn.Pagamentos.Data.Repository;
 using MBA.EducaOn.Vendas.Application.Commands;
+using MBA.EducaOn.Vendas.Application.Commands.Handlers;
+using MBA.EducaOn.Vendas.Application.Events;
 using MBA.EducaOn.Vendas.Data.Repository;
 using MBA.EducaOn.Vendas.Domain.Interfaces;
 using MediatR;
@@ -69,5 +78,27 @@ public static class DependencyInjectionRegisterExtensions
         //Vendas
         services.AddScoped<IRequestHandler<AdicionarItemPedidoCommand, bool>, PedidoCommandHandler>();
         services.AddScoped<IPedidoRepository, PedidoRepository>();
+
+        services.AddScoped<IRequestHandler<AdicionarItemPedidoCommand, bool>, PedidoCommandHandler>();
+        services.AddScoped<IRequestHandler<RemoverItemPedidoCommand, bool>, PedidoCommandHandler>();
+        services.AddScoped<IRequestHandler<AplicarVoucherPedidoCommand, bool>, PedidoCommandHandler>();
+        services.AddScoped<IRequestHandler<IniciarPedidoCommand, bool>, PedidoCommandHandler>();
+        services.AddScoped<IRequestHandler<FinalizarPedidoCommand, bool>, PedidoCommandHandler>();
+        services.AddScoped<IRequestHandler<CancelarProcessamentoPedidoCommand, bool>, PedidoCommandHandler>();
+        services.AddScoped<IRequestHandler<CancelarProcessamentoPedidoNotificarAlunoCommand, bool>, PedidoCommandHandler>();
+
+        services.AddScoped<INotificationHandler<PedidoRascunhoIniciadoEvent>, PedidoEventHandler>();
+        services.AddScoped<INotificationHandler<PedidoEstoqueRejeitadoEvent>, PedidoEventHandler>();
+        services.AddScoped<INotificationHandler<PedidoPagamentoRealizadoEvent>, PedidoEventHandler>();
+        services.AddScoped<INotificationHandler<PedidoPagamentoRecusadoEvent>, PedidoEventHandler>();
+
+        // Pagamento
+        services.AddScoped<IPagamentoRepository, PagamentoRepository>();
+        services.AddScoped<IPagamentoService, PagamentoService>();
+        services.AddScoped<IPagamentoCartaoCreditoFacade, PagamentoCartaoCreditoFacade>();
+        services.AddScoped<IPayPalGateway, PayPalGateway>();
+        services.AddScoped<Pagamentos.AntiCorruption.Interfaces.IConfigurationManager, Pagamentos.AntiCorruption.ConfigurationManager>();
+        
+        services.AddScoped<INotificationHandler<PedidoEstoqueConfirmadoEvent>, PagamentoEventHandler>();
     }
 }

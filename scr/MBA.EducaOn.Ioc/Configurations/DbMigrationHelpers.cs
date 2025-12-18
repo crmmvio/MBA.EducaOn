@@ -60,6 +60,7 @@ public static class DbMigrationHelpers
         var contextConteudo = scope.ServiceProvider.GetRequiredService<ConteudoDbContext>();
         var contextAluno = scope.ServiceProvider.GetRequiredService<AlunoDbContext>();
         var contextVendas = scope.ServiceProvider.GetRequiredService<Vendas.Data.VendasDbContext>();
+        var pagamentoContext = scope.ServiceProvider.GetRequiredService<Pagamentos.Data.PagamentoDbContext>();
 
         if (env.IsDevelopment() || env.IsEnvironment("Docker") || env.IsStaging())
         {
@@ -67,6 +68,7 @@ public static class DbMigrationHelpers
             await contextConteudo.Database.MigrateAsync();
             await contextAluno.Database.MigrateAsync();
             await contextVendas.Database.MigrateAsync();
+            await pagamentoContext.Database.MigrateAsync();
 
             await EnsureSeedRoles(contextSecurity);
             await EnsureSeedSecurity(userManager, contextSecurity, contextConteudo, contextAluno);

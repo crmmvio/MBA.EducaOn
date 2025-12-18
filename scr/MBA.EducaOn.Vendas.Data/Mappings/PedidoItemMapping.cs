@@ -17,7 +17,7 @@ public class PedidoItemMapping : IEntityTypeConfiguration<PedidoItem>
         builder.Property(c => c.CursoId)
                .IsRequired();
 
-        builder.Property(c => c.CursonNome)
+        builder.Property(c => c.CursoNome)
                .HasMaxLength(PedidoItem.NomeCursoMaxLength)
                .IsUnicode(false)
                .IsRequired();

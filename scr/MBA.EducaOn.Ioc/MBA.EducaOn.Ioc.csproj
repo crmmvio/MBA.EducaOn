@@ -22,6 +22,9 @@
     <ProjectReference Include="..\MBA.EducaOn.GestaoAlunos.Application\MBA.EducaOn.GestaoAlunos.Application.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.GestaoAlunos.Data\MBA.EducaOn.GestaoAlunos.Data.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.GestaoAlunos.Domain\MBA.EducaOn.GestaoAlunos.Domain.csproj" />
+    <ProjectReference Include="..\MBA.EducaOn.Pagamentos.AntiCorruption\MBA.EducaOn.Pagamentos.AntiCorruption.csproj" />
+    <ProjectReference Include="..\MBA.EducaOn.Pagamentos.Business\MBA.EducaOn.Pagamentos.Business.csproj" />
+    <ProjectReference Include="..\MBA.EducaOn.Pagamentos.Data\MBA.EducaOn.Pagamentos.Data.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.Security\MBA.EducaOn.Security.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.Vendas.Application\MBA.EducaOn.Vendas.Application.csproj" />
     <ProjectReference Include="..\MBA.EducaOn.Vendas.Data\MBA.EducaOn.Vendas.Data.csproj" />

@@ -1,11 +1,13 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
 #nullable disable
 
 namespace MBA.EducaOn.GestaoAlunos.Data.Migrations
 {
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage(Justification = "EF Migrations não será testada neste momento")]
     public partial class BcAlunoStart : Migration
     {
         /// <inheritdoc />

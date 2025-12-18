@@ -6,15 +6,15 @@ public class HistoricoAprendizado
 {
     protected HistoricoAprendizado() { }
 
-    public HistoricoAprendizado(Guid alunoId, Guid cursoId, DateTime dataAprendizado)
+    public HistoricoAprendizado(Guid aulaId, Guid cursoId, DateTime dataAprendizado)
     {
-        AulaId = alunoId;
+        AulaId = aulaId;
         CursoId = cursoId;
         DataAprendizado = dataAprendizado;
         Validar();
     }
 
-    public Guid AulaId { get; private set; }
+    public Guid AulaId { get; private set; }    
     public Guid CursoId { get; private set; }
     public DateTime DataAprendizado { get; private set; }
 
